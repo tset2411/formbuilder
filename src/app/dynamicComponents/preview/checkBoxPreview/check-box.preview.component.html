@@ -1,0 +1,33 @@
+<!-- HTML Form (wrapped in a .bootstrap-iso div) -->
+<div class="bootstrap-iso" id="component_{{ data.component.componentId }}">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <form method="post">
+                    <div class="form-group ">
+                        <div class="">
+                            <label class="control-label " for="name">
+                                {{ data.component.componentData.question.model }}
+                            </label>
+                            <div class="checkbox">    
+                                <label class="checkbox" 
+                                    *ngFor="let componentGroup of data.component.componentData.componentGroups; let loopIndex = index;"
+                                    [attr.data-index]="loopIndex">
+                                    <input type="checkbox" name="checkboxlabel"
+                                        [attr.name]="componentGroup.checkbox.name"
+                                        [attr.disabled]="data.mode==MODE.EDIT? 'disabled' : null"
+                                        [(ngModel)]="componentGroup.checkbox.model"
+                                        (change)="processToVerifyRules(data.component)"/>
+                                    <label class="control-label " for="name">
+                                        {{ componentGroup.label.model }}
+                                    </label>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

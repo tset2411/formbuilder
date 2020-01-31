@@ -1,0 +1,42 @@
+<!-- HTML Form (wrapped in a .bootstrap-iso div) -->
+<div class="bootstrap-iso">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-12" style="border-bottom: 1px solid;">
+                <form method="post">
+                    <i title="Remove" class="fa fa-minus-square" aria-hidden="true"
+                    style="float: right; color: red; cursor: pointer;"
+                    (click)="removeComponentByComponentId(data.component)">
+                    </i>
+                    <!-- <p>{{ data.component.componentId }}</p> -->
+                    <div class="form-group ">
+                        
+                        <label class="control-label " for="name">
+                            Label Name
+                        </label>
+                        <input
+                        title="InputBox Label Name"
+                        class="form-control"
+                        [attr.placeholder]="data.component.componentData.question.placeholder"
+                        id="name" name="name"
+                        type="text"
+                        [(ngModel)]="data.component.componentData.question.model"/>
+
+                        <ng-container 
+                        *ngIf="formBuilderSharedService.getIndexByComponentId(data.component.componentId) != 0 ">    
+                            <input type="checkbox" name="checkboxlabel" class="enableRuleCheckBox"
+                            [attr.checked]="data.component.isRuleEnable == true ? 'check' : null"
+                            (change)="enableRuleCheck()"/>
+                            <label class="control-label " for="name">
+                                Enable Conditional Rules?
+                            </label>
+                        </ng-container>
+                        
+                        <app-rules [data]="data" *ngIf="data.component.isRuleEnable">
+                        </app-rules>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

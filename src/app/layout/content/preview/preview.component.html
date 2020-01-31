@@ -1,0 +1,5 @@
+<div *ngFor="let component of formBuilderSharedService.formBuilderJson.components">
+	<div 
+	ctrl-factory [data]="getDynamicComponent(component, formBuilderSharedService.formBuilderJson.mode)">
+	</div>
+</div>

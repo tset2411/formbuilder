@@ -1,0 +1,29 @@
+<!-- HTML Form (wrapped in a .bootstrap-iso div) -->
+<div class="bootstrap-iso" id="component_{{ data.component.componentId }}">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <form method="post">
+                    <div class="form-group ">
+                        <div class="">
+                            <label class="control-label " for="select">
+                                {{ data.component.componentData.question.model }}
+                            </label>
+                            <select [(ngModel)]="data.component.componentData.selectedOption" 
+                                (change)="onOptionSelect(data.component.componentData.selectedOption)"
+                                class="select form-control" [ngModelOptions]="{standalone: true}">
+                                <option 
+                                    *ngFor="let componentGroup of data.component.componentData.componentGroups; let loopIndex =
+                                    index;" [attr.data-index]="loopIndex" 
+                                    [attr.value]="componentGroup.componentGroupId" 
+                                    [selected]="componentGroup.componentGroupId == data.component.componentData.selectedOption">
+                                    {{ componentGroup.option.model }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

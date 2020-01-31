@@ -1,0 +1,97 @@
+<!-- Rule Depends On Label and Dropdown -->	
+<div class="col-xs-6 col-sm-4">
+	<div class="form-group ">	
+		<label class="control-label " for="select2">
+			Rule Depends On
+		</label>
+		<select id="dependantComponentList" (change)="onDependanentComponentChange($event.target, rule.dependantComponentId)" 
+				[(ngModel)]="rule.dependantComponentId"
+			class="select form-control" [ngModelOptions]="{standalone: true}">
+			<ng-container *ngFor="let component of formBuilderSharedService.formBuilderJson.components; let dependantComponentIndex =
+					index;">
+				<option
+					[attr.data-index]="dependantComponentIndex"
+					[attr.value]="component.componentId" 
+					[attr.componentName]="component.component"
+					*ngIf="dependantComponentIndex < currentComponentIndexInJson && 
+						   component.component != DynamicComponentsEnum[DynamicComponentsEnum.FileUploadBoxComponent] && 
+						   component.component != DynamicComponentsEnum[DynamicComponentsEnum.DateBoxComponent]" 
+					[selected]="rule.dependantComponentId == component.componentId"
+					>
+					{{ getComponentLabel(component.component) + " Of " + component.componentData.question.model }}
+				</option>
+			</ng-container>
+		</select>
+	</div>
+</div>		
+
+<!-- Condition Label and Dropdown -->
+<div class="col-xs-6 col-sm-4">
+	<div class="form-group ">
+		<label class="control-label " for="select2">
+			Condition
+		</label>
+		<select [(ngModel)]="rule.condition"
+			class="select form-control" [ngModelOptions]="{standalone: true}">
+			<option
+				*ngFor="let condition of conditions; let conditionIndex =
+				index;" [attr.data-index]="conditionIndex"
+				[attr.value]="condition.condition"
+				[selected]="condition.condition == rule.condition">
+				{{ condition.label }}
+			</option>
+		</select>
+	</div>
+</div>
+
+<div class="col-xs-6 col-sm-4">
+	<div class="form-group ">		
+		<!-- Rule Value Label and Dropdown -->
+		<label class="control-label " for="select2">
+			Rule Value 
+		</label>
+		<div *ngIf="'InputBoxComponent' == selectedDependsOnComponentName">
+			<input 
+				[(ngModel)]="rule.value" [ngModelOptions]="{standalone: true}"
+				type="text" title="Rule Value"
+		    	class="form-control" placeholder="Enter Rule Value">
+		</div>
+
+		<!-- Rule Value options Dropdown for Checkbox and RadioBox Component -->	
+		<div *ngIf="'CheckBoxComponent' == selectedDependsOnComponentName || 
+					'RadioBoxComponent' == selectedDependsOnComponentName">			
+			<select [(ngModel)]="rule.value"
+				class="select form-control" [ngModelOptions]="{standalone: true}">
+				<option value="-1">Select Value</option>
+				<option
+					*ngFor="let componentGroup of formBuilderSharedService.formBuilderJson.components[selectedDependentComponentIndexInJson].componentData.componentGroups; let ruleOptionIndex =
+					index;" [attr.data-index]="ruleOptionIndex"
+					[attr.value]="componentGroup.componentGroupId">
+					{{ componentGroup.label.model }}
+				</option>
+			</select>
+		</div>
+
+		<!-- Rule Value options Dropdown for Dropbox Component -->
+		<div *ngIf="'DropBoxComponent' == selectedDependsOnComponentName">			
+			<select [(ngModel)]="rule.value"
+				class="select form-control" [ngModelOptions]="{standalone: true}">
+				<option value="-1">Select Value</option>
+				<option
+					*ngFor="let dropdownRuleOption of formBuilderSharedService.formBuilderJson.components[selectedDependentComponentIndexInJson].componentData.componentGroups; let ruleOptionIndex =
+					index;" [attr.data-index]="ruleOptionIndex"
+					[attr.value]="dropdownRuleOption.componentGroupId">
+					{{ dropdownRuleOption.option.model }}
+				</option>
+			</select>
+		</div>
+
+		<!-- Rule value for Date box -->
+		<div *ngIf="'DateBoxComponent' == selectedDependsOnComponentName">
+			<input 
+				[(ngModel)]="rule.value" [ngModelOptions]="{standalone: true}"
+				type="date" title="Rule Value"
+		    	class="form-control" placeholder="Enter Rule Value">
+		</div>
+	</div>				
+</div>	

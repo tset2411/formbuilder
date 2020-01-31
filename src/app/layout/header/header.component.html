@@ -1,0 +1,33 @@
+<div class="form-group">
+    <div *ngIf="!router.url.includes(ROUTS.PREVIEW)">
+        <button title="Add InputBox" (click)="addInputBox()" class="btn btn-primary " name="input_box" type="submit">
+            Input Box
+        </button>
+        <button title="Add CheckBox" (click)="addCheckBox()" class="btn btn-primary " name="check_box" type="submit">
+            Check Box
+        </button>
+        <button title="Add RadioBox" (click)="addRadioBox()" class="btn btn-primary " name="radio_box" type="submit">
+            Radio Box
+        </button>
+        <button title="Add DropDown" (click)="addDropBox()" class="btn btn-primary " name="drop_box" 
+        type="submit">
+            DropDown Box
+        </button>
+        <button title="Add FileUpload" (click)="addFileUploadBox()" class="btn btn-primary " name="file_upload_box" 
+        type="submit">
+            FileUpload Box
+        </button>
+        <button title="Add DateBox" (click)="addDateBox()" class="btn btn-primary " name="date_box" 
+        type="submit">
+            Date Box
+        </button>
+        <a href="" class="btn btn-primary" (click)="previewForm()" [routerLink]="['/preview']">
+            Preview
+        </a>
+    </div>
+    <div *ngIf="router.url.includes(ROUTS.PREVIEW)">
+        <a href="" class="btn btn-primary" (click)="goToHome()" [routerLink]="['/']">
+            Home
+        </a>    
+    </div>
+</div>

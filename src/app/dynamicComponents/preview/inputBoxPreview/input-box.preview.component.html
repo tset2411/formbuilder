@@ -1,0 +1,26 @@
+<div class="bootstrap-iso" id="component_{{ data.component.componentId }}">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <form method="post">
+                    <div class="form-group ">
+                        <label class="control-label " for="name">
+                            <span *ngIf="data.component.componentData.componentGroups[0].label.requiredAttr.model" class="required" style="color: red;">*</span>
+                            {{ data.component.componentData.question.model }}
+                        </label>
+                        <input
+                        class="form-control"
+                        [ngModelOptions]="{standalone: true}"
+                        type="text"
+                        [attr.placeholder]="data.component.componentData.componentGroups[0].label.placeholderAttr.model"
+                        [(ngModel)]="data.component.componentData.componentGroups[0].inputBox.model"
+                        [attr.pattern]="inputTypeConstant.getInputTypeModelByInputType(this.data.component.componentData.componentGroups[0].label.inputTypeAttr.selectedInputType).pattern"
+                        (keypress)="CONSTANT.onlyNumberKey($event, this.data.component.componentData.componentGroups[0].label.inputTypeAttr.selectedInputType)"
+                        [attr.required]="data.component.componentData.componentGroups[0].label.requiredAttr.model == true ? 'required' : null"
+                        (keyup)="processToVerifyRules(data.component)"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

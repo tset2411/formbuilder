@@ -1,0 +1,91 @@
+<!-- HTML Form (wrapped in a .bootstrap-iso div) -->
+<div class="bootstrap-iso">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-12" style="border-bottom: 1px solid;">
+                <form method="post">
+                    <i title="Remove" class="fa fa-minus-square" aria-hidden="true"
+                    style="float: right; color: red; cursor: pointer;"
+                    (click)="removeComponentByComponentId(data.component)">
+                    </i>
+                    <!-- <p>{{ data.component.componentId }}</p> -->
+                    <div class="form-group ">
+                        
+                        <label class="control-label " for="name">
+                            Label Name
+                        </label>
+                        <input
+                        title="DateBox Label Name"
+                        class="form-control"
+                        [attr.placeholder]="data.component.componentData.question.placeholder"
+                        id="name" name="name"
+                        type="text"
+                        [(ngModel)]="data.component.componentData.question.model"/>
+
+                        <label class="control-label " for="name">
+                            Minimum Date
+                        </label>
+                        <input type="text" class="form-control" name="minDateInput"
+                            [attr.value]="data.component.componentData.componentGroups[0].label.minDate.model"
+                            id="minDate" style="border-radius:4px;border:solid 1px #dbdbdb;padding: 4px 12px" />
+
+                        <label class="control-label " for="name">
+                            Maximum Date
+                        </label>
+                        <input type="text" class="form-control" name="maxDateInput"
+                            [attr.value]="data.component.componentData.componentGroups[0].label.maxDate.model"
+                            id="maxDate" style="border-radius:4px;border:solid 1px #dbdbdb;padding: 4px 12px" />
+
+                        
+                        <label class="control-label " for="name">
+                            Select Date Formate
+                        </label>    
+                        <select 
+                            [(ngModel)]="data.component.componentData.componentGroups[0].label.selectedFormate.model"
+                            (change)="onDateFormateChange(data.component.componentData.componentGroups[0].label.selectedFormate.model)"
+                            class="select form-control" [ngModelOptions]="{standalone: true}">
+                            <option
+                                *ngFor="let dateFormate of dateFormates; let formateIndex = index;" 
+                                [attr.data-index]="formateIndex"
+                                [attr.value]="dateFormate.dateFormate"
+                                [attr.selected]="dateFormate.dateFormate ==
+                                data.component.componentData.componentGroups[0].label.selectedFormate.model">
+                                {{ dateFormate.label }}
+                            </option>
+                        </select>    
+
+                        <input
+                        class="form-control"
+                        id="name"
+                        name="name"
+                        type="text"
+                        [attr.placeholder]="data.component.componentData.componentGroups[0].dateBox.placeholder"
+                        [attr.disabled]="data.mode==MODE.EDIT? 'disabled' : null"/>
+
+                        <input type="checkbox"
+                        [attr.name]="data.component.componentData.componentGroups[0].label.requiredAttr.label"
+                        [attr.checked]="data.component.componentData.componentGroups[0].label.requiredAttr.model == true ? 'check' : null "
+                        [(ngModel)]="data.component.componentData.componentGroups[0].label.requiredAttr.model"
+                        [ngModelOptions]="{standalone: true}"/>
+                        <label class="control-label " for="name">
+                            {{ data.component.componentData.componentGroups[0].label.requiredAttr.label }}
+                        </label>
+                        
+                        <ng-container 
+                        *ngIf="formBuilderSharedService.getIndexByComponentId(data.component.componentId) != 0 ">    
+                            <input type="checkbox" name="checkboxlabel" class="enableRuleCheckBox"
+                            [attr.checked]="data.component.isRuleEnable == true ? 'check' : null"
+                            (change)="enableRuleCheck()"/>
+                            <label class="control-label " for="name">
+                                Enable Conditional Rules?
+                            </label>
+                        </ng-container>
+                        
+                        <app-rules [data]="data" *ngIf="data.component.isRuleEnable">
+                        </app-rules>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

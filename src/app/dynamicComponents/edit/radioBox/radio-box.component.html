@@ -1,0 +1,63 @@
+<!-- HTML Form (wrapped in a .bootstrap-iso div) -->
+<div class="bootstrap-iso">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-12" style="border-bottom: 1px solid;">
+                <form method="post">
+                    <i
+                    title="Remove" class="fa fa-minus-square" aria-hidden="true"
+                    style="float: right; color: red; cursor: pointer;"
+                    (click)="removeComponentByComponentId(data.component)">
+                    </i>
+                    <div class="form-group ">
+                        <div class="col-xs-12">
+                            <div class="checkbox">
+                                
+                                <input title="CheckBox Label Name" class="form-control"
+                                    type="text" [ngModelOptions]="{standalone: true}"
+                                    [attr.placeholder]="data.component.componentData.question.placeholder"
+                                    [(ngModel)]="data.component.componentData.question.model"/>
+                                    
+                                <label class="checkbox"
+                                    *ngFor="let componentGroup of data.component.componentData.componentGroups; let loopIndex = index;"
+                                    [attr.data-index]="loopIndex">
+                                    <input type="radio"
+                                    [attr.name]="componentGroup.radiobox.name"
+                                    [attr.disabled]="data.mode==MODE.EDIT? 'disabled' : null"/>
+                                    <input title="radioBox Label Name" class="form-control"
+                                    type="text" [ngModelOptions]="{standalone: true}"
+                                    [attr.placeholder]="componentGroup.label.placeholder"
+                                    [(ngModel)]="componentGroup.label.model" />
+                                    <i  *ngIf="loopIndex+1==data.component.componentData.componentGroups.length"
+                                    title="Add" class="fa fa-plus-square" aria-hidden="true"
+                                    style="float: right; color: green; cursor: pointer;"
+                                    (click)="addRadioboxToGroup(data.component)">
+                                    </i>
+                                    <i  *ngIf="loopIndex!=data.component.componentData.componentGroups.length-1"
+                                    title="Remove" class="fa fa-minus-square" aria-hidden="true"
+                                    style="float: right; color: red; cursor: pointer;"
+                                    (click)="removeRadioboxFromGroup(data.component, loopIndex)">
+                                    </i>
+                                    <br><br>
+                                </label>
+
+                                <ng-container 
+                                *ngIf="formBuilderSharedService.getIndexByComponentId(data.component.componentId) != 0 ">    
+                                    <input type="checkbox" name="checkboxlabel" class="enableRuleCheckBox"
+                                    [attr.checked]="data.component.isRuleEnable == true ? 'check' : null"
+                                    (change)="enableRuleCheck()"/>
+                                    <label class="control-label " for="name">
+                                        Enable Conditional Rules?
+                                    </label>
+                                </ng-container>
+                                
+                            </div>
+                            <app-rules [data]="data" *ngIf="data.component.isRuleEnable">
+                            </app-rules>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

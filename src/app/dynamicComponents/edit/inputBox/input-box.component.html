@@ -1,0 +1,88 @@
+<!-- HTML Form (wrapped in a .bootstrap-iso div) -->
+<div class="bootstrap-iso">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-12" style="border-bottom: 1px solid;">
+                <form method="post">
+                    <i title="Remove" class="fa fa-minus-square" aria-hidden="true"
+                    style="float: right; color: red; cursor: pointer;"
+                    (click)="removeComponentByComponentId(data.component)">
+                    </i>
+                    <!-- <p>{{ data.component.componentId }}</p> -->
+                    <div class="form-group ">
+                        
+                        <label class="control-label " for="name">
+                            Label Name
+                        </label>
+                        <input
+                        title="InputBox Label Name"
+                        class="form-control"
+                        [attr.placeholder]="data.component.componentData.question.placeholder"
+                        id="name" name="name"
+                        type="text"
+                        [(ngModel)]="data.component.componentData.question.model"/>
+
+                        <label class="control-label " for="name">
+                            Plceholder
+                        </label>
+
+                        <input
+                        title="InputBox Placeholder Name"
+                        class="form-control"
+                        [ngModelOptions]="{standalone: true}"
+                        [attr.placeholder]="data.component.componentData.componentGroups[0].label.placeholderAttr.placeholder"
+                        [attr.name]="data.component.componentData.componentGroups[0].label.placeholderAttr.name"
+                        type="text"
+                        [(ngModel)]="data.component.componentData.componentGroups[0].label.placeholderAttr.model"/>
+
+                        <input
+                        class="form-control"
+                        id="name"
+                        name="name"
+                        type="text"
+                        [attr.placeholder]="data.component.componentData.componentGroups[0].inputBox.placeholder"
+                        [attr.disabled]="data.mode==MODE.EDIT? 'disabled' : null"/>
+
+                        <label class="control-label " for="name">
+                            Select Input Type
+                        </label>
+                        <select 
+                        [(ngModel)]="data.component.componentData.componentGroups[0].label.inputTypeAttr.selectedInputType"
+                                class="select form-control" [ngModelOptions]="{standalone: true}"
+                                (ngModelChange)="onInputTypeChange($event)">
+                                <option 
+                                    *ngFor="let inputTypeModel of inputTypeModels; let loopIndex =
+                                    index;" [attr.data-index]="loopIndex" 
+                                    [attr.value]="inputTypeModel.inputType" 
+                                    [selected]="inputTypeModel.inputType == inputTypeConstant.DEFAULT_INPUT_TYPE_MODEL.inputType">
+                                    {{ inputTypeModel.label }}
+                                </option>
+                        </select>
+
+                        <input type="checkbox"
+                        [attr.name]="data.component.componentData.componentGroups[0].label.requiredAttr.label"
+                        [attr.checked]="data.component.componentData.componentGroups[0].label.requiredAttr.model == true ? 'check' : null "
+                        [(ngModel)]="data.component.componentData.componentGroups[0].label.requiredAttr.model"
+                        [ngModelOptions]="{standalone: true}"/>
+                        <label class="control-label " for="name">
+                            {{ data.component.componentData.componentGroups[0].label.requiredAttr.label }}
+                        </label>
+                        
+                        <ng-container 
+                        *ngIf="formBuilderSharedService.getIndexByComponentId(data.component.componentId) != 0 ">    
+                            <input type="checkbox" name="checkboxlabel" class="enableRuleCheckBox"
+                            [attr.checked]="data.component.isRuleEnable == true ? 'check' : null"
+                            (change)="enableRuleCheck()"/>
+                            <label class="control-label " for="name">
+                                Enable Conditional Rules?
+                            </label>
+                        </ng-container>
+                        
+                        <app-rules [data]="data" *ngIf="data.component.isRuleEnable">
+                        </app-rules>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
